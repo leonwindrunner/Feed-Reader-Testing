@@ -99,9 +99,9 @@ $(function() {
          * the use of Jasmine's beforeEach and asynchronous done() function.
          */
         beforeEach(function(done) {
-            var num=Math.floor(Math.random()*allFeeds.length);  //get a random number from 0 to 3
+            var num = Math.floor(Math.random() * allFeeds.length); //get a random number from 0 to 3
             // console.log(num);
-            loadFeed(num, function() {  //it will randomly load feed from arry allFeeds
+            loadFeed(num, function() { //it will randomly load feed from arry allFeeds
                 done();
             });
         });
@@ -124,35 +124,34 @@ $(function() {
          */
         var oldFeed;
 
+        // Shuffle function, get a random number array like [2,1,3,0]
         beforeEach(function(done) {
             function shuffle(array) {
-                var currentIndex=array.length, temporaryValue, randomIndex;
-
-                while (currentIndex!==0) {
-                    randomIndex=Math.floor(Math.random() * currentIndex);
-                    currentIndex-=1;
-                    temporaryValue=array[currentIndex];
-                    array[currentIndex]=array[randomIndex];
-                    array[randomIndex]=temporaryValue;
+                var currentIndex = array.length,
+                    temporaryValue, randomIndex;
+                while (currentIndex !== 0) {
+                    randomIndex = Math.floor(Math.random() * currentIndex);
+                    currentIndex -= 1;
+                    temporaryValue = array[currentIndex];
+                    array[currentIndex] = array[randomIndex];
+                    array[randomIndex] = temporaryValue;
                 }
-
                 return array;
             }
 
             var numArry = [];
-            for(let i=0;i<allFeeds.length;i++) {
+            for (let i = 0; i < allFeeds.length; i++) {
                 numArry[i] = i;
             }
             numArry = shuffle(numArry);
 
-            var num1=numArry[0];
-            var num2=numArry[1];
+            var num1 = numArry[0];
+            var num2 = numArry[1];
             // console.log(numArry);
-            // console.log(num1);
-            // console.log(num2);
 
+            //load feed two times, randomly load from array allFeeds
             loadFeed(num1, function() {
-                oldFeed = $('.feed').html();
+                oldFeed = $('.feed').html(); //first time get feed's innerHTML
                 loadFeed(num2, function() {
                     done();
                 });
@@ -160,7 +159,7 @@ $(function() {
         });
 
         it('is loaded by the loadFeed function that the content actually changes.', function(done) {
-            var newFeed = $('.feed').html();
+            var newFeed = $('.feed').html(); //second time get feed's innerHTML
             var compareFeed = (newFeed == oldFeed);
             expect(compareFeed).toBe(false);
             done();
